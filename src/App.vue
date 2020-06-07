@@ -25,21 +25,39 @@
  <div class="text-center">
     <v-btn rounded color="primary" dark @click="getdata">Refresh</v-btn>
   </div>
-  <br><br><br>
+  <br>
 
   <v-divider></v-divider>    
-  
-      <v-data-table
-        :items="users"
-        :headers="headers"
-        class="elevation-1"
-        :dark="true"
-      >
+
+     
+      <v-card>
+        <v-card-title>
+          Corona
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+          
+           </v-card-title>
+        
+            <v-data-table
+              :items="users"
+              :headers="headers"
+              class="elevation-1"
+              :dark="true"
+              :search="search"
+            >
+              <template v-slot:item.deaths="{ item }">
+                <v-chip :color="getColor(item.deaths)" dark>{{ item.deaths }}</v-chip>
+              </template>
+            </v-data-table>
+        </v-card>
     
-    <template v-slot:item.deaths="{ item }">
-      <v-chip :color="getColor(item.deaths)" dark>{{ item.deaths }}</v-chip>
-    </template>
-  </v-data-table>
   </v-app>
   
 </template>
@@ -51,6 +69,7 @@ export default {
 
  data () {
       return {
+        search:'',
         users: [],
         indiaTotalCase: null,
         indianDeaths: null,
